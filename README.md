@@ -1,5 +1,5 @@
 # References
- Reference projects. Unity and .NetCore MVC & REST API,Mobile app
+ Reference projects. Unity and .NetCore MVC & REST API and Mobile app
  
  HexagonYigitca is a hexfall clone for vertigo games applicant demo.
  
