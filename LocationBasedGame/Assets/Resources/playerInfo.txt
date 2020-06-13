@@ -1,0 +1,1 @@
+{"name":"Player","points":127,"openedBox":0,"catchSceneCount":0,"spawnedAround":0,"itemList":[{},{},{},{},{},{},{},{},{},{},{},{},{}]}
