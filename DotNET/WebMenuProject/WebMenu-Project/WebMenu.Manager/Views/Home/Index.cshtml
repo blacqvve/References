@@ -1,0 +1,24 @@
+﻿@model WebMenu.Data.Models.Company
+@{
+     
+    ViewData["Title"] = "Home Page";
+}
+
+  <div class="text-center">
+    <h1 class="display-4">Welcome</h1>
+    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+
+
+    @using (Html.BeginForm("Index", "Home", FormMethod.Post))
+    {
+      <input type="text" name="QrCodeLink" value="" />
+      <input type="submit" value="Generate" />
+    }
+    @{
+      if (Model != null)
+      {
+        <img src="@Model.QRPicture.URL" alt="Alternate Text" width="400" height="400" />
+      }
+    }
+
+  </div>

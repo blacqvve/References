@@ -1,0 +1,60 @@
+﻿@page
+@model IndexModel
+@{
+    ViewData["Title"] = "Caston Background Tasks";
+}
+
+<div class="row">
+    <div class="col-md-8">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h2 class="panel-title">Great!</h2>
+            </div>
+            <div class="panel-body">
+                <p>If you are seeing this page, it means the background tasks are running perfectly!</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-8">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h2 class="panel-title">Recent events:</h2>
+            </div>
+            <div class="panel-body">
+                <table id="logsTable">
+                    <thead>
+                        <tr>
+                            <th>Time</th>
+                            <th>Category</th>
+                            <th>Message</th>
+                        </tr>
+
+                    </thead>
+                    <tbody>
+                        @foreach (var item in ViewData["logs"] as List<No2API.Entities.Models.Log>)
+                        {
+
+                            <tr>
+                                <td>@item.Timestamp</td>
+                                <td>@item.CategoryName</td>
+                                <td>@item.Msg</td>
+                            </tr>
+
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+    <script>
+        $(document).ready(function () {
+            $('#logsTable').DataTable();
+        });
+    </script>
+}

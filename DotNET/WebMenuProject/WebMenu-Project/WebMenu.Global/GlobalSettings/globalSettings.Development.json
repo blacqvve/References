@@ -1,0 +1,11 @@
+{
+  "Logging": {
+    "LogLevel": {
+      "Default": "Warning"
+    }
+  },
+  "AllowedHosts": "*",
+  "ConnectionStrings": {
+    "Development": "server=94.73.148.157;database=u8820550_WMTest;uid=vanil_WMTest;pwd=XVze84E8EGgj21Q;Convert Zero Datetime=true; Allow Zero Datetime=true;"
+  }
+}

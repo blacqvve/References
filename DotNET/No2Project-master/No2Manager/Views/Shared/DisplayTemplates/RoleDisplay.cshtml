@@ -1,0 +1,18 @@
+﻿@model  string
+
+@if (Model=="User")
+{
+    @Html.Raw("Kullanıcı")
+}
+else if (Model=="Manager")
+{
+    @Html.Raw("Otoriter")
+}
+else if (Model=="Salesman")
+{
+    @Html.Raw("Plasiyer")
+}
+else if (Model=="Admin")
+{
+    @Html.Raw("Yönetici")
+}

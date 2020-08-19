@@ -1,0 +1,13 @@
+﻿
+
+    @using (Html.BeginForm("Index","Home",FormMethod.Post))
+    {
+        <input type="text" name="QrCodeLink" value="" />
+        <input type="submit"  value="Generate" />
+    }
+    <hr />
+
+    @if (ViewBag.QRCode != null)
+        {
+    <img src="@ViewBag.QRCode" style="height:500px;width:500px;"  />
+        }
