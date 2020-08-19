@@ -1,0 +1,70 @@
+﻿@model IEnumerable<MagicBox.Data.Models.CouponCode>
+
+@{
+  ViewData["Title"] = "Manage";
+}
+
+<p>
+  <a class="btn btn-outline-success" asp-action="Create" asp-route-id="@ViewContext.RouteData.Values["id"]">Yeni Kupon</a>
+</p>
+<table class="table">
+  <thead>
+    <tr>
+      <th>
+        @Html.DisplayNameFor(model => model.Code)
+      </th>
+      <th>
+        @Html.DisplayNameFor(model => model.Active)
+      </th>
+      <th>
+        @Html.DisplayNameFor(model => model.Category)
+      </th>
+      <th>
+        @Html.DisplayNameFor(model => model.Description)
+      </th>
+      <th>
+        @Html.DisplayNameFor(model => model.ExpiresAt)
+      </th>
+      <th>
+        @Html.DisplayNameFor(model => model.CreatedAt)
+      </th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    @foreach (var item in Model)
+    {
+      <tr>
+        <td>
+          @Html.DisplayFor(modelItem => item.Code)
+        </td>
+        <td>
+          @Html.DisplayFor(modelItem => item.Active)
+        </td>
+        <td>
+          @Html.DisplayFor(modelItem => item.Category)
+        </td>
+        <td>
+          @Html.DisplayFor(modelItem => item.Description)
+        </td>
+        <td>
+          @Html.DisplayFor(modelItem => item.ExpiresAt)
+        </td>
+        <td>
+          @Html.DisplayFor(modelItem => item.CreatedAt)
+        </td>
+
+        <td>
+
+          <a class="btn @(item.Active ? "btn-outline-dark" : "btn-outline-success" )" style="width:200px;" asp-action="ToggleActivate" asp-route-id="@item.Id" asp-route-CompanyId="@ViewContext.RouteData.Values["id"]">@(item.Active ? "Kullanıldı Olarak İşaretle" : "Aktif Et") </a>
+          @if (User.IsInRole("Admin"))
+          {
+
+            <a class="btn btn-outline-danger" style="width:50px;" asp-action="Delete" asp-route-id="@item.Id">Sil</a>
+          }
+        </td>
+
+      </tr>
+    }
+  </tbody>
+</table>

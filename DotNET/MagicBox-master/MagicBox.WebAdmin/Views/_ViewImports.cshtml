@@ -1,0 +1,7 @@
+﻿@using MagicBox.WebAdmin
+@using MagicBox.WebAdmin.Models
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@inject Microsoft.AspNetCore.Identity.UserManager<MagicBox.Data.Models.User> userManager
+@inject Microsoft.AspNetCore.Identity.SignInManager<MagicBox.Data.Models.User> signInManager
+@inject MagicBox.Data.Managers.ICouponManager couponManager
+@inject MagicBox.Data.Managers.IPlayerManager playerManager

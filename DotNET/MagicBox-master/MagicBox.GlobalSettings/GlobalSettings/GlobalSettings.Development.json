@@ -1,0 +1,12 @@
+{
+  "Logging": {
+    "LogLevel": {
+      "Default": "Warning"
+    }
+  },
+  "AllowedHosts": "*",
+  "ConnectionStrings": {
+    "MySQL": "server=94.73.148.157;database=vanillaunicornsoftware_com_discountbox;uid=discountbox;pwd=CEuq61W8;Convert Zero Datetime=True",
+    "Dev": "server=80.211.195.93;database=discountbox;uid=discountbox;pwd=PHW8TT5WxLmNBdYy;Convert Zero Datetime=True"
+  }
+}

@@ -1,0 +1,14 @@
+﻿@model MagicBox.Data.Models.User
+
+@{
+    ViewData["Title"] = "Delete";
+}
+
+<h3>Firmayı kaldırmak istediğinizden emin misiniz? (@Model.Email)</h3>
+<div>
+    <form asp-action="DeleteConfirm" method="post">
+        <input type="hidden" asp-for="Id" />
+
+        <input type="submit" value="Sil" class="btn btn-danger" />
+    </form>
+</div>
