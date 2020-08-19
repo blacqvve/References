@@ -1,0 +1,171 @@
+﻿@page
+@model LoginModel
+
+@{
+    ViewData["Title"] = "Giriş Yap";
+
+}
+@{ Layout = null;}
+<!DOCTYPE html>
+<html lang="tr">
+
+<head>
+    <!-- Required meta tags-->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="au theme template">
+    <meta name="author" content="Hau Nguyen">
+    <meta name="keywords" content="au theme template">
+
+
+    <title>Login</title>
+
+
+    <link href="~/css/font-face.css" rel="stylesheet" media="all">
+    <link href="~/vendor/font-awesome-4.7/css/font-awesome.min.css" rel="stylesheet" media="all">
+    <link href="~/vendor/font-awesome-5/css/fontawesome-all.min.css" rel="stylesheet" media="all">
+    <link href="~/vendor/mdi-font/css/material-design-iconic-font.min.css" rel="stylesheet" media="all">
+
+    <link href="~/vendor/bootstrap-4.1/bootstrap.min.css" rel="stylesheet" media="all">
+
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.0/themes/smoothness/jquery-ui.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" />
+    <link href="~/vendor/animsition/animsition.min.css" rel="stylesheet" media="all">
+    <link href="~/vendor/bootstrap-progressbar/bootstrap-progressbar-3.3.4.min.css" rel="stylesheet" media="all">
+    <link href="~/vendor/wow/animate.css" rel="stylesheet" media="all">
+    <link href="~/vendor/css-hamburgers/hamburgers.min.css" rel="stylesheet" media="all">
+    <link href="~/vendor/slick/slick.css" rel="stylesheet" media="all">
+    <link href="~/vendor/select2/select2.min.css" rel="stylesheet" media="all">
+    <link href="~/vendor/perfect-scrollbar/perfect-scrollbar.css" rel="stylesheet" media="all">
+
+    <!-- Main CSS-->
+    <link href="~/css/theme.css" rel="stylesheet" media="all">
+
+</head>
+
+<body class="animsition">
+    <div class="page-wrapper">
+        <div class="page-content--bge5">
+            <div class="container">
+                <div class="login-wrap">
+                    <div class="login-content">
+                        <div class="login-logo">
+                            <a href="#">
+                                <img src="~/factory.png" alt="CastonFactory" />
+                            </a>
+                        </div>
+                        <div class="login-form">
+                            <form id="account" method="post">
+                                <div asp-validation-summary="All" class="text-danger"></div>
+                                <div class="form-group">
+                                    <label asp-for="Input.UserName">Kullanıcı Adı</label>
+                                    <input class="au-input au-input--full" asp-for="Input.UserName" placeholder="Kullanıcı Adı">
+                                    <span asp-validation-for="Input.UserName" class="text-danger"></span>
+
+                                </div>
+                                <div class="form-group">
+                                    <label asp-for="Input.Password">Şifre</label>
+                                    <input class="au-input au-input--full" asp-for="Input.Password" placeholder="Şifre">
+                                    <span asp-validation-for="Input.Password" class="text-danger"></span>
+                                </div>
+                                <div class="form-group">
+                                    <div class="checkbox">
+                                        <label asp-for="Input.RememberMe">
+                                            <input asp-for="Input.RememberMe" />
+                                            @Html.DisplayNameFor(m => m.Input.RememberMe)
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <button class="au-btn au-btn--block au-btn--green m-b-20" type="submit">Giriş Yap</button>
+
+                            </form>
+                            <div>
+                                <a class="au-btn au-btn--block au-btn--green m-b-20" style="text-align:center;" asp-page="./Register" asp-route-returnUrl="@Model.ReturnUrl">Kayıt Ol</a>
+                            </div>
+                            <div> <a style="text-align:center;" class="au-btn au-btn--block au-btn--green m-b-20" asp-page="./ForgotPassword" asp-route-returnUrl="@Model.ReturnUrl">Şifremi Sıfırla</a></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+
+    <script src="~/vendor/jquery-3.2.1.min.js"></script>
+
+    <script src="~/vendor/bootstrap-4.1/popper.min.js"></script>
+    <script src="~/vendor/bootstrap-4.1/bootstrap.min.js"></script>
+    <script src="~/vendor/slick/slick.min.js">
+    </script>
+    <script src="~/vendor/wow/wow.min.js"></script>
+    <script src="~/vendor/animsition/animsition.min.js"></script>
+
+    <script src="~/vendor/perfect-scrollbar/perfect-scrollbar.js"></script>
+
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+    <script src="~/vendor/select2/select2.min.js">
+    </script>
+    <script src="~/js/main.js"></script>
+
+</body>
+
+</html>
+
+
+@if (TempData["ResetPasswordEmail"] != null)
+{
+    <script>
+
+        (function () {
+            toastr.options = {
+                "closeButton": true,
+                "debug": false,
+                "progressBar": true,
+                "preventDuplicates": false,
+                "positionClass": "toast-top-right",
+                "showDuration": "400",
+                "hideDuration": "3000",
+                "timeOut": "9000",
+                "extendedTimeOut": "2000",
+                "showEasing": "swing",
+                "hideEasing": "linear",
+                "showMethod": "fadeIn",
+                "hideMethod": "fadeOut"
+            }
+            toastr.success('İşlem Başarılı Emailinizi Kontrol Ediniz');
+        })();
+
+    </script>
+
+}
+@if (TempData["ResetedPassword"] != null)
+{
+    <script>
+
+        (function () {
+            toastr.options = {
+                "closeButton": true,
+                "debug": false,
+                "progressBar": true,
+                "preventDuplicates": false,
+                "positionClass": "toast-top-right",
+                "showDuration": "400",
+                "hideDuration": "3000",
+                "timeOut": "9000",
+                "extendedTimeOut": "2000",
+                "showEasing": "swing",
+                "hideEasing": "linear",
+                "showMethod": "fadeIn",
+                "hideMethod": "fadeOut"
+            }
+            toastr.success('İşlem Başarılı Şifreniz Değiştirilmiştir');
+        })();
+
+    </script>
+
+}
+
+

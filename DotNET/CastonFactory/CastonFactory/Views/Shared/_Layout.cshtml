@@ -1,0 +1,363 @@
+﻿@using Microsoft.AspNetCore.Identity
+@inject SignInManager<CastonFactory.Data.Models.User> SignInManager
+@inject UserManager<CastonFactory.Data.Models.User> UserManager
+@{
+    string name = "";
+    if (SignInManager.IsSignedIn(User))
+    {
+
+        name = UserManager.GetUserAsync(User).Result.FullName;
+    }
+}
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-172447908-1"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+
+        gtag('config', 'UA-172447908-1');
+    </script>
+  @RenderSection("MetaTags", false) 
+    <meta name="google-site-verification" content="Hy9r5F0jarIZVLC0Cm6QWIK576QQERWivJC2ibsqPD4" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - CastonFactory</title>
+    <link href="~/css/font-face.css" rel="stylesheet" media="all">
+    <link href="~/vendor/font-awesome-4.7/css/font-awesome.min.css" rel="stylesheet" media="all">
+    <link href="~/vendor/font-awesome-5/css/fontawesome-all.min.css" rel="stylesheet" media="all">
+    <link href="~/vendor/mdi-font/css/material-design-iconic-font.min.css" rel="stylesheet" media="all">
+
+    <!-- Bootstrap CSS-->
+    <link href="~/vendor/bootstrap-4.1/bootstrap.min.css" rel="stylesheet" media="all">
+
+    <!-- Vendor CSS-->
+    <link href="~/vendor/animsition/animsition.min.css" rel="stylesheet" media="all">
+    <link href="~/vendor/bootstrap-progressbar/bootstrap-progressbar-3.3.4.min.css" rel="stylesheet" media="all">
+    <link href="~/vendor/wow/animate.css" rel="stylesheet" media="all">
+    <link href="~/vendor/css-hamburgers/hamburgers.min.css" rel="stylesheet" media="all">
+    <link href="~/vendor/slick/slick.css" rel="stylesheet" media="all">
+    <link href="~/vendor/select2/select2.min.css" rel="stylesheet" media="all">
+    <link href="~/vendor/perfect-scrollbar/perfect-scrollbar.css" rel="stylesheet" media="all">
+    <link href="~/vendor/vector-map/jqvmap.min.css" rel="stylesheet" media="all">
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.0/themes/smoothness/jquery-ui.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" />
+    <script src="~/vendor/jquery-3.2.1.min.js"></script>
+
+    <script src="https://cdn.onesignal.com/sdks/OneSignalSDK.js" async=""></script>
+    <script>
+        window.OneSignal = window.OneSignal || [];
+        OneSignal.push(function () {
+            OneSignal.init({
+                appId: "837b7b8d-6630-4f7f-ac0f-c7aec082a567",
+                //appId: "82d1911a-753c-480c-a718-5257a1b257a4",
+            });
+          OneSignal.on('subscriptionChange', function (isSubscribed) {
+            console.log("The user's subscription state is now:", isSubscribed);
+            OneSignal.setSubscription(isSubscribed);
+          });
+        });
+    </script>
+
+
+
+    <!-- Main CSS-->
+    <link href="~/css/theme.css" rel="stylesheet" media="all">
+    @RenderSection("Styles", required: false)
+</head>
+<body class="animsition">
+    <div class="page-wrapper">
+        <!-- MENU SIDEBAR-->
+        <aside class="menu-sidebar2">
+            <div class="logo">
+                @*<img src="~/factory.png" alt="Cool Admin" />*@
+                <h3 style="color:white">Caston Factory</h3>
+            </div>
+            <div class="menu-sidebar2__content js-scrollbar1">
+                <div class="account2">
+                    <h4 class="name">@name</h4>
+                    <form asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
+                        <button type="submit"> Çıkış Yap</button>
+                    </form>
+
+                </div>
+                <nav class="navbar-sidebar2">
+                    <ul class="list-unstyled navbar__list">
+                        @{
+                            if (SignInManager.IsSignedIn(User) && User.IsInRole("Admin"))
+                            {
+                                <li>
+                                    <a asp-action="Index" asp-controller="Admin">
+                                        <i class="fas fa-gears"></i>İçerik Yönetimi
+                                    </a>
+                                </li>
+                                <li>
+                                    <a asp-action="Index" asp-controller="Home">
+                                        <i class="fas fa-list"></i>Otoriterlere Görünen Liste
+                                    </a>
+                                </li>
+                                <li>
+                                    <a asp-action="DeactivatedContents" asp-controller="Admin">
+                                        <i class="fas fa-eye-slash"></i>Deaktif İçerik Listesi
+                                    </a>
+                                </li>
+                                <li>
+                                    <a asp-action="ActivationWaitingList" asp-controller="Admin">
+                                        <i class="fa fa-usd"></i>Aktivasyon Bekleyenler Listesi
+                                    </a>
+                                </li>
+                                <li>
+                                    <a asp-action="ThemeIndex" asp-controller="DeleteTheme">
+                                        <i class="fa fa-trash"></i>Tema Sil
+                                    </a>
+                                </li>
+                                <li>
+                                    <a asp-action="GenreIndex" asp-controller="GenreDelete">
+                                        <i class="fa fa-trash"></i>Tür Sil
+                                    </a>
+                                </li>
+                                <li>
+                                    <a asp-action="PasswordList" asp-controller="Admin">
+                                        <i class="fas  fa-lock"></i>Kullanıcı Şifre Listesi
+                                    </a>
+                                </li>
+                                <li>
+                                    <a asp-action="Create" asp-controller="Admin">
+                                        <i class="fas fa-music"></i>İçerik Ekle
+                                    </a>
+                                </li>
+                                <li>
+                                    <a asp-action="ManagerRegister" asp-controller="Admin">
+                                        <i class="fas fa-male"></i>Otoriter Oluştur
+                                    </a>
+                                </li>
+                                <li>
+                                    <a asp-action="Index" asp-controller="Support">
+                                        <i class="fas fa-question"></i>Destek Talepleri
+                                    </a>
+                                </li>
+                            }
+                        }
+                        @{
+                            if (SignInManager.IsSignedIn(User) && User.IsInRole("ContentProducer"))
+                            {
+                                <li>
+                                    <a asp-action="ContentIndex" asp-controller="User">
+                                        <i class="fas fa-file"></i>Ana Sayfa
+                                    </a>
+                                </li>
+                                <li>
+                                    <a asp-action="ContentCreate" asp-controller="User">
+                                        <i class="fas fa-music"></i>İçerik Ekle
+                                    </a>
+                                </li>
+                                <li>
+                                    <a asp-action="Profile" asp-controller="User">
+                                        <i class="fas fa-user"></i>Bilgilerim
+                                    </a>
+                                </li>
+
+                                <li>
+                                    <a asp-action="ProfileEdit" asp-controller="User">
+                                        <i class="fas fa-pencil-square-o"></i>Bilgilerimi Düzenle
+                                    </a>
+                                </li>
+                                <li>
+                                    <a asp-action="UserResetPassword" asp-controller="User">
+                                        <i class="fas fa-key"></i>Şifremi Sıfırla
+                                    </a>
+                                </li>
+                                <li>
+                                    <a asp-action="CreateSupportRequest" asp-controller="Support">
+                                        <i class="fas fa-question"></i>Destek Talebi Oluştur
+                                    </a>
+                                </li>
+                            }
+                        }
+                    </ul>
+                </nav>
+            </div>
+        </aside>
+        <div class="page-container2">
+            <!-- HEADER DESKTOP-->
+            <header class="header-desktop2">
+                <div class="section__content section__content--p30">
+                    <div class="container-fluid">
+                        <div class="header-wrap2">
+                            <div class="logo d-block d-lg-none">
+
+                                @*<img src="~/factory.png" alt="CoolAdmin" />*@
+                                <h3 style="color:white">Caston Factory</h3>
+                            </div>
+                            <div class="header-button-item mr-0 js-sidebar-btn">
+                                <i class="zmdi zmdi-menu"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </header>
+            <aside class="menu-sidebar2 js-right-sidebar d-block d-lg-none">
+                <div class="logo">
+
+                </div>
+    
+                <div class="menu-sidebar2__content js-scrollbar2">
+
+                    <nav class="navbar-sidebar2">
+                        <ul class="list-unstyled navbar__list">
+
+                            @{
+                                if (SignInManager.IsSignedIn(User) && User.IsInRole("Admin"))
+                                {
+                                <li>
+                                    <a asp-action="Index" asp-controller="Admin">
+                                        <i class="fas fa-gears"></i>İçerik Yönetimi
+                                    </a>
+                                </li>
+                                <li>
+                                    <a asp-action="Index" asp-controller="Home">
+                                        <i class="fas fa-list"></i>Otoriterlere Görünen Liste
+                                    </a>
+                                </li>
+                                <li>
+                                    <a asp-action="DeactivatedContents" asp-controller="Admin">
+                                        <i class="fas fa-eye-slash"></i>Deaktif İçerik Listesi
+                                    </a>
+                                </li>
+                                <li>
+                                    <a asp-action="ActivationWaitingList" asp-controller="Admin">
+                                        <i class="fa fa-usd"></i>Aktivasyon Bekleyenler Listesi
+                                    </a>
+                                </li>
+                 
+                                <li>
+                                    <a asp-action="ThemeIndex" asp-controller="DeleteTheme">
+                                        <i class="fa fa-trash"></i>Tema Sil
+                                    </a>
+                                </li>
+                                <li>
+                                    <a asp-action="GenreIndex" asp-controller="GenreDelete">
+                                        <i class="fa fa-trash"></i>Tür Sil
+                                    </a>
+                                </li>
+                                <li>
+                                    <a asp-action="PasswordList" asp-controller="Admin">
+                                        <i class="fas  fa-lock"></i>Kullanıcı Şifre Listesi
+                                    </a>
+                                </li>
+                                <li>
+                                    <a asp-action="Create" asp-controller="Admin">
+                                        <i class="fas fa-music"></i>İçerik Ekle
+                                    </a>
+                                </li>
+                                <li>
+                                    <a asp-action="ManagerRegister" asp-controller="Admin">
+                                        <i class="fas fa-male"></i>Otoriter Oluştur
+                                    </a>
+                                </li>
+                                <li>
+                                    <a asp-action="Index" asp-controller="Support">
+                                        <i class="fas fa-question"></i>Destek Talepleri
+                                    </a>
+                                </li>
+                                }
+                            }
+                            @{
+                                if (SignInManager.IsSignedIn(User) && User.IsInRole("ContentProducer"))
+                                {
+                                <li>
+                                    <a asp-action="ContentIndex" asp-controller="User">
+                                        <i class="fas fa-file"></i>Ana Sayfa
+                                    </a>
+                                </li>
+                                <li>
+                                    <a asp-action="ContentCreate" asp-controller="User">
+                                        <i class="fas fa-music"></i>İçerik Ekle
+                                    </a>
+                                </li>
+                                <li>
+                                    <a asp-action="Profile" asp-controller="User">
+                                        <i class="fas fa-user"></i>Bilgilerim
+                                    </a>
+                                </li>
+
+                                <li>
+                                    <a asp-action="ProfileEdit" asp-controller="User">
+                                        <i class="fas fa-pencil-square-o"></i>Bilgilerimi Düzenle
+                                    </a>
+                                </li>
+                                <li>
+                                    <a asp-action="UserResetPassword" asp-controller="User">
+                                        <i class="fas fa-key"></i>Şifremi Sıfırla
+                                    </a>
+                                </li>
+                                <li>
+                                    <a asp-action="CreateSupportRequest" asp-controller="Support">
+                                        <i class="fas fa-question"></i>Destek Talebi Oluştur
+                                    </a>
+                                </li>
+                                }
+                            }
+
+                        </ul>
+                    </nav>
+                </div>
+            </aside>
+            <!-- END HEADER DESKTOP-->
+            @RenderBody()
+            <section>
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="copyright">
+                                <p>Copyright ©2020 <a href="https://caston.tv">Caston</a> ve <a href="https://vanillaunicornsoftware.com">Vanilla Unicorn Sofware</a></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <!-- END PAGE CONTAINER-->
+        </div>
+    </div>
+
+  <!-- Jquery JS-->
+  <!-- Bootstrap JS-->
+  <script src="~/vendor/bootstrap-4.1/popper.min.js"></script>
+  <script src="~/vendor/bootstrap-4.1/bootstrap.min.js"></script>
+  <!-- Vendor JS       -->
+  <script src="~/vendor/slick/slick.min.js">
+  </script>
+  <script src="~/vendor/wow/wow.min.js"></script>
+  <script src="~/vendor/animsition/animsition.min.js"></script>
+  <script src="~/vendor/bootstrap-progressbar/bootstrap-progressbar.min.js">
+  </script>
+  <script src="~/vendor/counter-up/jquery.waypoints.min.js"></script>
+  <script src="~/vendor/counter-up/jquery.counterup.min.js">
+  </script>
+  <script src="~/vendor/circle-progress/circle-progress.min.js"></script>
+  <script src="~/vendor/perfect-scrollbar/perfect-scrollbar.js"></script>
+  <script src="~/vendor/chartjs/Chart.bundle.min.js"></script>
+  <script src="~/vendor/select2/select2.min.js">
+  </script>
+  <script src="~/vendor/vector-map/jquery.vmap.js"></script>
+  <script src="~/vendor/vector-map/jquery.vmap.min.js"></script>
+  <script src="~/vendor/vector-map/jquery.vmap.sampledata.js"></script>
+  <script src="~/vendor/vector-map/jquery.vmap.world.js"></script>
+
+
+  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+
+
+
+  <!-- Main JS-->
+  <script src="~/js/main.js"></script>
+
+  @RenderSection("Scripts", required: false)
+</body>
+</html>

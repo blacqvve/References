@@ -1,0 +1,216 @@
+﻿@using ReflectionIT.Mvc.Paging
+@addTagHelper *, ReflectionIT.Mvc.Paging
+@model PagingList<CastonFactory.Data.Models.Content>
+@{
+  ViewData["Title"] = "Anasayfa";
+}
+
+@section Styles{
+  <style>
+    .ui-autocomplete {
+      max-height: 150px;
+      overflow-y: auto;
+      overflow-x: hidden;
+    }
+
+    * html .ui-autocomplete {
+      height: 100px;
+    }
+
+    .ui-autocomplete-loading {
+      background: url('images/loading.gif') no-repeat right center
+    }
+  </style>
+}
+<div class="main-content">
+  <div class="section__content section__content--p30">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-lg-12">
+          <div class="card">
+            <div class="card-header">İçerik Arama</div>
+            <div class="card-body">
+              <div class="form-check">
+                <label for="searchType" class="form-check-label ">
+                  <input type="checkbox" id="searchType" value="false" class="form-check-input">Üretici ismi ile ara.
+                </label>
+              </div>
+              <hr />
+              <div id="searhWithName" style="display:none">
+                <form asp-action="Index" asp-controller="Home" method="post" novalidate>
+                  <div class="form-row">
+                    <div class="form-group col-md-4">
+                      <input type="text" id="kw" class="form-control" name="Keyword" placeholder="İsim giriniz" />
+                    </div>
+                    <input type="hidden" name="filtered" value="true" />
+                    <div class="form-group col-md-4">
+                      <div class="col-md-2">
+                        <button type="submit" class="btn btn-primary btn-sm">
+                          <i class="fa fa-search"></i> Ara
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </form>
+              </div>
+              <div id="searchWithFilter">
+                <form asp-action="Index" asp-controller="Home" method="post" novalidate>
+                  <div class="form-row">
+                    <div class="form-group col-md-4">
+                      <label for="select" class=" form-control-label">Tema Seçiniz</label>
+                      <select name="Theme" id="select" class="form-control" asp-items="@(new SelectList(ViewBag.Themes, "Name", "Name"));">
+                      </select>
+                    </div>
+                    <div class="form-group col-md-4">
+                      <label for="genreSelect" class=" form-control-label">Tür Seçiniz</label>
+                      <select name="Genre" id="genreSelect" class="form-control" asp-items="@(new SelectList(ViewBag.Genres, "Name", "Name"));">
+                      </select>
+                    </div>
+                  </div>
+                  <div class="row form-group  col-md-10">
+                    @foreach (var item in CastonFactory.Data.Models.ContentTypes.GetContentTypes())
+                    {
+                      <div class="checkbox col-md-2">
+                        <div class="form-check">
+                          <label for="@item" class="form-check-label ">
+                            <input type="checkbox" id="@item" name="contentTypes" value="@item" class="form-check-input">@item
+                          </label>
+                        </div>
+                      </div>
+                    }
+                    <input type="hidden" name="filtered" value="true" />
+                    <div class="col-md-2">
+                      <button type="submit" class="btn btn-primary btn-sm">
+                        <i class="fa fa-search"></i> Ara
+                      </button>
+                    </div>
+                  </div>
+                </form>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class=" card">
+        <div class="card-body">
+          <nav>
+            @await this.Component.InvokeAsync("Pager", new { pagingList = this.Model, filtered = ViewBag.Filtered })
+          </nav>
+          <div class="table-responsive table-responsive-data2">
+            <table class="table table-data2">
+              <thead>
+                <tr>
+                  <th>  @Html.DisplayNameFor(model => model.User.FullName)</th>
+                  <th>  @Html.DisplayNameFor(model => model.CreationName)</th>
+                  <th>  @Html.DisplayNameFor(model => model.ContentType)</th>
+                  <th>  @Html.DisplayNameFor(model => model.Theme.Name)</th>
+                  <th>  @Html.DisplayNameFor(model => model.Genre.Name)</th>
+                  <th>  @Html.DisplayNameFor(model => model.User.PhoneNumber)</th>
+                  <th>İşlemler</th>
+                </tr>
+              </thead>
+              <tbody>
+                @foreach (var item in Model)
+                {
+                  <tr class="tr-shadow">
+                    <td> @Html.DisplayFor(modelItem => item.User.FullName)</td>
+                    <td>
+                      <span class="block-email">  @Html.DisplayFor(modelItem => item.CreationName)</span>
+                    </td>
+                    <td class="desc">  @Html.DisplayFor(modelItem => item.ContentType)</td>
+                    <td>  @Html.DisplayFor(modelItem => item.Theme.Name)</td>
+                    <td>  @Html.DisplayFor(modelItem => item.Genre.Name)</td>
+                    <td>
+                      <span class="status--process">  @Html.DisplayFor(modelItem => item.User.PhoneNumber)</span>
+                    </td>
+                    <td>
+                      <div class="table-data-feature">
+                        <button type="button" class="item" data-toggle="tooltip" data-placement="top" title="Görüntüle">
+                          <a asp-action="Details" asp-controller="Home" asp-route-id="@item.Id"> <i class="zmdi zmdi-more"></i></a>
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr class="spacer"></tr>
+                }
+
+              </tbody>
+            </table>
+            <nav>
+              @await this.Component.InvokeAsync("Pager", new { pagingList = this.Model })
+            </nav>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+@section Scripts{
+
+  <script>
+    function getUrlVars() {
+      var vars = [], hash;
+      var hashes = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
+      for (var i = 0; i < hashes.length; i++) {
+        hash = hashes[i].split('=');
+        vars.push(hash[0]);
+        vars[hash[0]] = hash[1];
+      }
+      return vars;
+    }
+    $(document).ready(function () {
+      $.extend($.ui.autocomplete.prototype.options, {
+        open: function (event, ui) {
+          $(this).autocomplete("widget").css({
+            "width": ($(this).width() + 50 + "px")
+          });
+        }
+      });
+      $('#kw').autocomplete({
+        minLength: 0,
+        source: function (request, response) {
+          $.ajax({
+            url: "api/Content/Search",
+            dataType: "json",
+            data: {
+              term: request.term
+            },
+            success: function (data) {
+              console.log(data)
+              response(data);
+            }
+          });
+        },
+        focus: function (event, ui) {
+          $("#kw").val(ui.item.keyword);
+          return false;
+        },
+
+        select: function (event, ui) {
+          $("#kw").val(ui.item.keyword);
+
+          return false;
+        }
+      })
+        .autocomplete("instance")._renderItem = function (ul, item) {
+          return $("<li>")
+            .append("<div>" + item.keyword + "</div>")
+            .appendTo(ul);
+        };
+
+      $('#searchType').change(function () {
+        if (this.checked) {
+          $('#searchWithFilter').hide();
+          $('#searhWithName').show();
+        }
+        else {
+          $('#searchWithFilter').show();
+          $('#searhWithName').hide();
+        }
+      });
+    });
+  </script>
+
+}

@@ -1,0 +1,242 @@
+﻿@model CastonFactory.Models.UserContentVM
+@{
+  ViewData["Title"] = "İçerik Ekle";
+
+}
+<head>
+  <link href="~/css/progressbar.css" rel="stylesheet" />
+</head>
+
+<div class="main-content">
+  <div class="section__content section__content--p30">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-lg-12">
+          <div class="card">
+            <div class="card-header">
+              <strong>İçerik</strong> Ekle
+            </div>
+            <div class="card-body card-block">
+              <form asp-action="ContentCreate" method="post" enctype="multipart/form-data" class="form-horizontal">
+
+                <div class="row form-group">
+                  <div class="col col-md-3">
+                    <label asp-for="CreationName" class=" form-control-label">Eser Adı</label>
+                  </div>
+                  <div class="col-12 col-md-9">
+                    <input asp-for="CreationName" class="form-control" />
+                    <span asp-validation-for="CreationName" class="text-danger"></span>
+                  </div>
+                </div>
+                <div class="row form-group">
+                  <div class="col col-md-3">
+                    <label for="select" class=" form-control-label">Tip Seç</label>
+                  </div>
+                  <div class="col-12 col-md-9">
+                    <select asp-for="ContentType" id="select" class="form-control" asp-items="@(new SelectList(ViewBag.Types,"Key","Value"));">
+                    </select>
+                  </div>
+                </div>
+                <div id="dropDown" class="row form-group">
+                  <div class="col col-md-3">
+                    <label for="select" class=" form-control-label">Tema Seç</label>
+                  </div>
+                  <div class="col-12 col-md-9">
+                    <select name="Theme" asp-for="Theme" id="select" class="form-control" asp-items="@(new SelectList(ViewBag.Themes, "Name", "Name"));">
+                    </select>
+                  </div>
+                </div>
+                <div class="form-check">
+                  <label for="searchType" class="form-check-label ">
+                    <input type="checkbox" id="NewThemeCheck" value="false" class="form-check-input">Yeni Tema Ekle
+                  </label>
+                </div>
+                <div id="newTheme" class="row form-group">
+                  <div class="col col-md-3">
+                    <label asp-for="NewTheme" class=" form-control-label">Yeni Tema</label>
+                  </div>
+                  <div class="col-12 col-md-9">
+                    <input asp-for="NewTheme" class="form-control" />
+                    <span asp-validation-for="NewTheme" class="text-danger"></span>
+                  </div>
+                </div>
+
+
+                <div id="genreDropDown" class="row form-group">
+                  <div class="col col-md-3">
+                    <label for="select" class=" form-control-label">Tür Seç</label>
+                  </div>
+                  <div class="col-12 col-md-9">
+                    <select name="Genre" asp-for="Genre" id="select" class="form-control" asp-items="@(new SelectList(ViewBag.Genres, "Name", "Name"));">
+                    </select>
+                  </div>
+                </div>
+                <div class="form-check">
+                  <label for="searchType" class="form-check-label ">
+                    <input type="checkbox" id="NewGenreCheck" value="false" class="form-check-input">Yeni Tür Ekle
+                  </label>
+                </div>
+                <div id="newGenre" class="row form-group">
+                  <div class="col col-md-3">
+                    <label asp-for="NewGenre" class=" form-control-label">Yeni Tür</label>
+                  </div>
+                  <div class="col-12 col-md-9">
+                    <input asp-for="NewGenre" class="form-control" />
+                    <span asp-validation-for="NewGenre" class="text-danger"></span>
+                  </div>
+                </div>
+
+                <div id="wrap" class="row form-group">
+                  <div class="col col-md-3">
+                    <label asp-for="File" id="file" class="form-control-label">Dosya Yükle</label>
+
+                  </div>
+                  <div class="col-12 col-md-9">
+                    <input asp-for="File" type="file" id="myfile" required name="myfile" data-max-size="1" onchange="selectedFile();" accept=".PDF,.pdf,.wav,.mp3,.m4a,.mp4,.mov" class="form-control-file" />
+                    <span asp-validation-for="File" class="text-danger"></span>
+
+                  </div>
+                  <br />
+                  <br />
+                  <b style="text-align:center;">Dosya Boyutunuz 100Mb'yi aşmamalıdır ve dosya uzantılarınız ".PDF,.pdf,.wav,.mp3,.m4a,.mp4,.mov" olmalıdır.</b>
+                  <br />
+                  <p><b style="text-align:center;font-size:10px;">Eğer sistemde bulunan temalar veya türler arasından sizin yüklemek istediğiniz içeriğe uygun bir seçenek yoksa yeni tema veya tür eklemenizi sağlayan bir sistemimiz var. Fakat eklediğiniz tema veya tür bizim şartlarımıza uygun değilse reddedilecektir. Lütfen yeni tema veya tür ekleyeceğiniz zaman <strong>sadece</strong> bir adet tema veya tür yazınız. En baskın bir adet temayı veya türü seçmeniz gerekiyor.</b></p>
+                </div>
+
+                <button type="submit" value="İçeriği Ekle" onClick="uploadFile()" class="btn btn-primary btn-sm">
+                  <i class="fa fa-dot-circle-o"></i> Kaydet
+                </button>
+                <button type="submit" asp-action="ContentIndex" class="btn btn-danger btn-sm">
+                  <i class="fa fa-ban"></i> Geri
+                </button>
+                <br />
+                <br />
+              </form>
+              <progress id="progressBar" value="0" max="100" class="html5"></progress>
+              <div id="percentageCalc"></div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  @if (ViewBag.Error != null)
+  {
+    <p style="color:red;">@ViewBag.Error</p>
+  }
+</div>
+
+@section Scripts {
+  @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+  <script>
+    $(document).ready(function () {
+      $('#newTheme').hide();
+      $('#newGenre').hide();
+      $('#NewThemeCheck').change(function () {
+        if (this.checked) {
+
+          $('#newTheme').show();
+          $('#dropDown').hide();
+        }
+        else {
+          $('#newTheme').hide();
+          $('#dropDown').show();
+        }
+      });
+      $('#NewGenreCheck').change(function () {
+        if (this.checked) {
+
+          $('#newGenre').show();
+          $('#genreDropDown').hide();
+        }
+        else {
+          $('#newGenre').hide();
+          $('#genreDropDown').show();
+        }
+      });
+    });
+
+  </script>
+  <script type="text/javascript">
+
+    $('#myfile').on('change', function () {
+
+      const size =
+        (this.files[0].size / 1024 / 1024).toFixed(2);
+
+      if (size > 100) {
+        alert("Dosya boyutunuz küçük olmalıdır: 100 MB dan");
+      }
+    });
+
+  </script>
+  <script type="text/javascript">
+
+    function selectedFile() {
+      var archivoSeleccionado = document.getElementById("myfile");
+      var file = archivoSeleccionado.files[0];
+      if (file) {
+        var fileSize = 0;
+        if (file.size > 1048576)
+          fileSize = (Math.round(file.size * 100 / 1048576) / 100).toString() + ' MB';
+        else
+          fileSize = (Math.round(file.size * 100 / 1024) / 100).toString() + ' Kb';
+
+        var divfileSize = document.getElementById('fileSize');
+        var divfileType = document.getElementById('fileType');
+        divfileSize.innerHTML = 'Tamaño: ' + fileSize;
+        divfileType.innerHTML = 'Tipo: ' + file.type;
+
+      }
+    }
+
+    function uploadFile() {
+      var formAction = $(this).attr("action");
+      var url = formAction;
+      var archivoSeleccionado = document.getElementById("myfile");
+      var file = archivoSeleccionado.files[0];
+      var fd = new FormData();
+      fd.append("archivo", file);
+      var xmlHTTP = new XMLHttpRequest();
+      xmlHTTP.upload.addEventListener("progress", progressFunction, false);
+      xmlHTTP.addEventListener("load", transferCompleteFunction, false);
+      xmlHTTP.addEventListener("error", uploadFailed, false);
+      xmlHTTP.addEventListener("abort", uploadCanceled, false);
+      xmlHTTP.open("POST", url, true);
+      xmlHTTP.send(fd);
+    }
+
+    function progressFunction(evt) {
+      var progressBar = document.getElementById("progressBar");
+      var percentageDiv = document.getElementById("percentageCalc");
+      if (evt.lengthComputable) {
+        progressBar.max = evt.total;
+        progressBar.value = evt.loaded;
+        percentageDiv.innerHTML = Math.round(evt.loaded / evt.total * 100) + "%";
+      }
+    }
+
+    function loadStartFunction(evt) {
+
+    }
+    function transferCompleteFunction(evt) {
+
+      var progressBar = document.getElementById("progressBar");
+      var percentageDiv = document.getElementById("percentageCalc");
+      progressBar.value = 100;
+      percentageDiv.innerHTML = "100%";
+    }
+
+    function uploadFailed(evt) {
+      alert("Dosya Yükleme İşleminiz Başarısız");
+    }
+
+    function uploadCanceled(evt) {
+      alert("Dosya Yükleme İşleminiz Başarısız");
+    }
+
+  </script>
+
+
+}

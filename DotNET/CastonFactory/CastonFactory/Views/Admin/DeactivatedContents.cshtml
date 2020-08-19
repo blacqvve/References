@@ -1,0 +1,179 @@
+﻿@model IEnumerable<CastonFactory.Data.Models.Content>
+@{ 
+     ViewData["Title"] = "Deactifleştirilmiş İçerikler";
+}
+
+<h1>Deactifleştirilmiş İçerikler</h1>
+
+<div class="main-content">
+<div class="section__content section__content--p30">
+  <div class="container-fluid">
+    <div class="row">
+
+      <div class="col-lg-12">
+        <div class="card">
+          <div class="card-header">İçerik Arama</div>
+          <div class="card-body">
+            <hr />
+            <div id="searhWithName" >
+              <form asp-action="DeactivatedContents" asp-controller="Admin" method="post" novalidate>
+                <div class="form-row">
+                  <div class="form-group col-md-4">
+                    <input type="text" id="kw" class="form-control" name="Keyword" placeholder="İsim giriniz" />
+                  </div>
+                  <input type="hidden" name="filtered" value="true" />
+                  <div class="form-group col-md-4">
+                    <div class="col-md-2">
+                      <button type="submit" class="btn btn-primary btn-sm">
+                        <i class="fa fa-search"></i> Ara
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class=" card">
+      <div class="card-body">
+        <div class="table-responsive table-responsive-data2">
+          <table class="table table-data2">
+            <thead>
+              <tr>
+                <th>
+                  @Html.DisplayNameFor(model => model.User.FullName)
+                </th>
+                <th>
+                  @Html.DisplayNameFor(model => model.CreationName)
+                </th>
+                <th>
+                  @Html.DisplayNameFor(model => model.ContentType)
+                </th>
+                <th>
+                  @Html.DisplayNameFor(model => model.IsActive)
+                </th>
+                <th>
+                  @Html.DisplayNameFor(model => model.Theme.Name)
+                </th>
+                <th>
+                  @Html.DisplayNameFor(model => model.Genre.Name)
+                </th>
+                <th>
+                  @Html.DisplayNameFor(model => model.User.PhoneNumber)
+                </th>
+                <th>İşlemler</th>
+              </tr>
+            </thead>
+            <tbody>
+              @foreach (var item in Model)
+              {
+                <tr class="tr-shadow">
+                    <td> @Html.DisplayFor(modelItem => item.User.FullName)</td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.CreationName)
+                    </td>
+                    <td>  @Html.DisplayFor(modelItem => item.ContentType)</td>
+                    @if (item.IsActive)
+                    {
+                        <td><span class="badge badge-success">Onaylandı</span></td>
+                    }
+                    else
+                    {
+                        <td> <span class="badge badge-warning">Onay Bekliyor</span></td>
+                    }
+                    @if (item.Theme.UserTheme == true)
+                    {
+                        <td>  @Html.DisplayFor(modelItem => item.Theme.Name)</td>
+                    }
+                    else
+                    {
+                        <td style="vertical-align:bottom">  @Html.DisplayFor(modelItem => item.Theme.Name)  <span class="badge badge-warning">Onay Bekliyor</span></td>
+
+                    }
+                    @if (item.Genre.UserGenre == true)
+                    {
+                        <td>  @Html.DisplayFor(modelItem => item.Genre.Name)</td>
+                    }
+                    else
+                    {
+                        <td style="vertical-align:bottom">  @Html.DisplayFor(modelItem => item.Genre.Name)  <span class="badge badge-warning">Onay Bekliyor</span></td>
+
+                    }
+                    <td>
+                        <span class="status--process">  @Html.DisplayFor(modelItem => item.User.PhoneNumber)</span>
+                    </td>
+                    <td>
+                        <div class="table-data-feature">
+                            <button type="button" class="item" data-toggle="tooltip" data-placement="top" title="Görüntüle">
+                                <a asp-action="Details" asp-controller="Admin" asp-route-id="@item.Id"> <i class="zmdi zmdi-more"></i></a>
+                            </button>
+                            @if (item.IsActive)
+                            {
+                                <button class="item" data-toggle="tooltip" data-placement="top" onclick="DeactivateContent('@item.Id')" title="Deactive Et">
+                                    <i class="zmdi zmdi-eye-off"></i>
+                                </button>
+                            }
+                            else
+                            {
+                                <button class="item" data-toggle="tooltip" data-placement="top" onclick="ActivateContent('@item.Id')" title="Aktive Et">
+                                    <i class="zmdi zmdi-eye"></i>
+                                </button>
+                            }
+                            <button class="item" data-toggle="tooltip" data-placement="top" title="Düzenle">
+                                <a asp-action="Edit" asp-controller="Admin" asp-route-id="@item.Id"><i class="zmdi zmdi-edit"></i></a>
+                            </button>
+                            @if (item.Theme.UserTheme == false)
+                            {
+                                <button class="item" data-toggle="tooltip" data-placement="top" title="Tema Onayla">
+                                    <a asp-action="ActivetedUserTheme" asp-controller="Admin" asp-route-id="@item.Id"><i class="fa fa-check"></i></a>
+                                </button>
+                            }
+
+                            @if (item.Genre.UserGenre == false)
+                            {
+                                <button class="item" data-toggle="tooltip" data-placement="top" title="Tür Onayla">
+                                    <a asp-action="ActivetedUserGenre" asp-controller="Admin" asp-route-id="@item.Id"><i class="fa fa-check"></i></a>
+                                </button>
+                            }
+                        </div>
+                    </td>
+                </tr>
+                <tr class="spacer"></tr>
+              }
+
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+  </div>
+<script>
+  function ActivateContent(id) {
+    var jqxhr = $.get("../api/Content/Activate/" + id, function () {
+      console.log("Post Sent")
+    })
+      .done(function () {
+        toastr.success('Aktivasyon Başarılı.')
+      })
+      .fail(function (xhr) {
+        toastr.error('Aktivasyon Başarısız.')
+        console.log(xhr.responseText);
+      })
+  }
+
+  function DeactivateContent(id) {
+    var jqxhr = $.get("../api/Content/Deactivate/" + id, function () {
+      console.log("Post Sent")
+    })
+      .done(function () {
+        toastr.success('Deactivasyon Başarılı.')
+      })
+      .fail(function () {
+        toastr.error('Deactivasyon Başarısız.')
+      })
+  }
+</script>

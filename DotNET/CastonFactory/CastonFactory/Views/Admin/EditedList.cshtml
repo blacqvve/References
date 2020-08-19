@@ -1,0 +1,199 @@
+﻿@model IEnumerable<CastonFactory.Data.Models.Content>
+
+@{
+    ViewData["Title"] = "EditedList";
+}
+
+
+@*<table class="table">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.CreationName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.ContentType)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.IsActive)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.IsPremium)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.CreateDate)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.ModifyDate)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Paid)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.isEdited)
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.CreationName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ContentType)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.IsActive)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.IsPremium)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.CreateDate)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ModifyDate)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Paid)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.isEdited)
+                    </td>
+                    <td>
+                        <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                        <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                        <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>*@
+
+<div class="main-content">
+    <div class="section__content section__content--p30">
+        <div class="container-fluid">
+            <div class="row">
+
+                <div class="col-lg-12">
+                    <div class="card">
+                        <div class="card-header">İçerik Arama</div>
+                        <div class="card-body">
+                            <hr />
+                            <div id="searhWithName">
+                                <form asp-action="DeactivatedContents" asp-controller="Admin" method="post" novalidate>
+                                    <div class="form-row">
+                                        <div class="form-group col-md-4">
+                                            <input type="text" id="kw" class="form-control" name="Keyword" placeholder="İsim giriniz" />
+                                        </div>
+                                        <input type="hidden" name="filtered" value="true" />
+                                        <div class="form-group col-md-4">
+                                            <div class="col-md-2">
+                                                <button type="submit" class="btn btn-primary btn-sm">
+                                                    <i class="fa fa-search"></i> Ara
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class=" card">
+                <div class="card-body">
+                    <div class="table-responsive table-responsive-data2">
+                        <table class="table table-data2">
+                            <thead>
+                                <tr>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.CreationName)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.ContentType)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.ModifyDate)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.isEdited)
+                                    </th>
+                                    <th>İşlemler</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model)
+                                {
+                                    <tr class="tr-shadow">
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.CreationName)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.ContentType)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.IsActive)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.IsPremium)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.CreateDate)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.ModifyDate)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.Paid)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.isEdited)
+                                        </td>
+                                        <td>
+                                            <div class="table-data-feature">
+                                                <button type="button" class="item" data-toggle="tooltip" data-placement="top" title="Görüntüle">
+                                                    <a asp-action="Details" asp-controller="Admin" asp-route-id="@item.Id"> <i class="zmdi zmdi-more"></i></a>
+                                                </button>
+                                                @if (item.isEdited)
+                                                {
+                                                    <button class="item" data-toggle="tooltip" data-placement="top" onclick="ActivateContent('@item.Id')" title="Aktive Et">
+                                                        <i class="zmdi zmdi-eye"></i>
+                                                    </button>
+                                                }
+                                                <button class="item" data-toggle="tooltip" data-placement="top" title="Düzenle">
+                                                    <a asp-action="Edit" asp-controller="Admin" asp-route-id="@item.Id"><i class="zmdi zmdi-edit"></i></a>
+                                                </button>
+
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr class="spacer"></tr>
+                                }
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    function ActivateContent(id) {
+        var jqxhr = $.get("../api/Content/Activate/" + id, function () {
+            console.log("Post Sent")
+        })
+            .done(function () {
+                toastr.success('Aktivasyon Başarılı.')
+            })
+            .fail(function (xhr) {
+                toastr.error('Aktivasyon Başarısız.')
+                console.log(xhr.responseText);
+            })
+    }
+
+</script>

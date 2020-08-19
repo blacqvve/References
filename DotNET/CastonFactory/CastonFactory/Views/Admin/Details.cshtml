@@ -1,0 +1,179 @@
+﻿@model CastonFactory.Data.Models.Content
+@{
+     ViewData["Title"] = "DetailsContent";
+     int rating = 1;
+     if (Model.Rating!=null)
+     {
+       rating = Model.Rating.ManagerRating;
+     }
+}
+@section MetaTags{
+  <meta http-equiv="Content-Type" content="text/plain; charset=utf-8" />
+}
+@section Styles{
+  <style>
+    .jq-stars {
+      display: inline-block;
+    }
+
+    .jq-rating-label {
+      font-size: 22px;
+      display: inline-block;
+      position: relative;
+      vertical-align: top;
+      font-family: helvetica, arial, verdana;
+    }
+
+    .jq-star {
+      width: 100px;
+      height: 100px;
+      display: inline-block;
+      cursor: pointer;
+    }
+
+    .jq-star-svg {
+      padding-left: 3px;
+      width: 100%;
+      height: 100%;
+    }
+
+    .jq-star:hover .fs-star-svg path {
+    }
+
+    .jq-star-svg path {
+      /* stroke: #000; */
+      stroke-linejoin: round;
+    }
+
+    /* un-used */
+    .jq-shadow {
+      -webkit-filter: drop-shadow( -2px -2px 2px #888 );
+      filter: drop-shadow( -2px -2px 2px #888 );
+    }
+  </style>
+}
+<div class="main-content">
+  <div class="section__content section__content--p30">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="card col-lg-6">
+          <div class="card-body">
+            <h5 class="card-title">İçerik Detayları</h5>
+          </div>
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item">
+              <h5>@Html.DisplayNameFor(model => model.User.FullName):</h5>
+              <p>@Html.DisplayFor(model => model.User.FullName)</p>
+            </li>
+            <li class="list-group-item">
+              <h5>@Html.DisplayNameFor(model => model.CreationName):</h5>
+              <p>@Html.DisplayFor(model => model.CreationName)</p>
+            </li>
+            <li class="list-group-item">
+              <h5>@Html.DisplayNameFor(model => model.Theme.Name):</h5>
+              <p>@Html.DisplayFor(model => model.Theme.Name)</p>
+            </li>
+            <li class="list-group-item">
+              <h5>@Html.DisplayNameFor(model => model.Genre.Name):</h5>
+              <p>@Html.DisplayFor(model => model.Genre.Name)</p>
+            </li>
+            <li class="list-group-item">
+              <h5>@Html.DisplayNameFor(model => model.ContentType):</h5>
+              <p>@Html.DisplayFor(model => model.ContentType)</p>
+            </li>
+            <li class="list-group-item">
+              <h5>@Html.DisplayNameFor(model => model.User.PhoneNumber):</h5>
+              <p>@Html.DisplayFor(model => model.User.PhoneNumber)</p>
+            </li>
+            <li class="list-group-item">
+              <h5>@Html.DisplayNameFor(model => model.CreateDate):</h5>
+              <p>@Html.DisplayFor(model => model.CreateDate)</p>
+              <h5>@Html.DisplayNameFor(model => model.ModifyDate):</h5>
+              <p>@Html.DisplayFor(model => model.ModifyDate)</p>
+            </li>
+            <li class="list-group-item">
+              <div class="my-rating jq-stars" data-rating="@(rating/2)"></div>
+            </li>
+            <li class="list-group-item">
+              <div><a href="~/Contents/@Model.Data.Link" download>İçeriği İndir</a></div>
+            </li>
+
+          </ul>
+          <div class="card-body">
+            <a asp-action="Index" class="card-link">Geri Dön</a>
+          </div>
+        </div>
+        <div class="card col-lg-6">
+          <div class="card-header">
+            İçerik
+          </div>
+          <div class="card-body">
+            @if (!string.IsNullOrEmpty(Model.Data.Link))
+            {
+              switch (Model.Data.FileExtension.ToLower())
+              {
+                case ".mp4":
+                case ".mov":
+                  <div class="embed-responsive embed-responsive-16by9" style="height:100% !important">
+                    <video controls>
+                      <source src="https://cdn-music.caston.tv/Resources/Contents/@Model.Data.Link" type="video/mp4">
+                      Tarayıcınız bu içeriği desteklemiyor.
+                    </video>
+                  </div>
+                  break;
+                case ".wav":
+                case ".wma":
+                case ".mp3":
+                case ".m4a":
+                  <div class="embed-responsive embed-responsive-4by3" style="height:100% !important">
+                    <audio controls class="embed-responsive-item">
+                      <source src="https://cdn-music.caston.tv/Resources/Contents/@Model.Data.Link">
+                    </audio>
+                  </div>
+                  break;
+                case ".txt":
+                case ".TXT":
+                case ".pdf":
+                  <div class="embed-responsive embed-responsive-16by9" style="height:100% !important">
+                    <iframe class="embed-responsive-item" src="https://cdn-music.caston.tv/Resources/Contents/@Model.Data.Link"></iframe>
+                  </div>
+                  break;
+                default:
+                  <h4>İçerik verisi bulunamadı veya bozuk.</h4>
+                  break;
+              }
+            }
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+@section Scripts{
+  <script src="~/js/jquery.star-rating-svg.min.js"></script>
+  <script>
+  $(".my-rating").starRating({
+    starSize: 25,
+    readOnly: false,
+    minRating: 1,
+    activeColor: 'cornflowerblue',
+    starShape: 'rounded',
+    ratedColor: 'blue',
+    disableAfterRate: true,
+    useFullStars: true,
+    callback: function (currentRating, $el) {
+      var jqxhr = $.get("/api/Content/RateContent?id=" + '@Model.Id' + "&rating=" + currentRating, function () {
+        console.log("Post Sent")
+      })
+        .done(function () {
+          toastr.success('Puanlama Başarılı.')
+        })
+        .fail(function (xhr) {
+          toastr.error(xhr.responseText)
+          console.log(xhr.responseText);
+        })
+    }
+  });
+  </script>
+}

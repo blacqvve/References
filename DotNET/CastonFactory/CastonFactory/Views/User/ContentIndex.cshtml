@@ -1,0 +1,222 @@
+﻿@model IEnumerable<CastonFactory.Data.Models.Content>
+
+@{
+  ViewData["Title"] = "İçeriklerim";
+  @TempData["ResetPassword"];
+  @TempData["ContentEdit"];
+  @TempData["ContentCreate"];
+     string uId = UserManager.GetUserId(User);
+}
+
+<div class="main-content">
+  <div class="section__content section__content--p30">
+    <div class="container-fluid">
+      <div class=" card">
+        <div class="card-body">
+          <div class="table-responsive table-responsive-data2">
+            <table class="table table-data2">
+              <thead>
+                  <tr>
+                      <th>
+                          @Html.DisplayNameFor(model => model.CreationName)
+                      </th>
+                      <th>
+                          @Html.DisplayNameFor(model => model.ContentType)
+                      </th>
+                      <th>
+                          @Html.DisplayNameFor(model => model.IsActive)
+                      </th>
+                      <th>
+                          @Html.DisplayNameFor(model => model.Theme.Name)
+                      </th>
+                      <th>
+                          @Html.DisplayNameFor(model => model.Genre.Name)
+                      </th>
+                      <th>
+                          @Html.DisplayNameFor(model => model.Rating.ViewCount)
+                      </th>
+                      <th>
+                          @Html.DisplayNameFor(model => model.User.PhoneNumber)
+                      </th>
+                      <th>İşlemler</th>
+                  </tr>
+              </thead>
+              <tbody>
+                @foreach (var item in Model)
+                {
+                  <tr class="tr-shadow">
+
+                      <td>
+                          @Html.DisplayFor(modelItem => item.CreationName)
+                      </td>
+                      <td>  @Html.DisplayFor(modelItem => item.ContentType)</td>
+                      @if (item.IsActive)
+                      {
+                          <td><span class="badge badge-success">Onaylandı</span></td>
+                      }
+                      else
+                      {
+                          <td> <span class="badge badge-warning">Onay Bekliyor</span></td>
+                      }
+                      @if (item.Theme.UserTheme == true)
+                      {
+                          <td>  @Html.DisplayFor(modelItem => item.Theme.Name)</td>
+                      }
+                      else
+                      {
+                          <td style="vertical-align:bottom">  @Html.DisplayFor(modelItem => item.Theme.Name)  <span class="badge badge-warning">Onay Bekliyor</span></td>
+
+                      }
+                      @if (item.Genre.UserGenre == true)
+                      {
+                          <td>  @Html.DisplayFor(modelItem => item.Genre.Name)</td>
+                      }
+                      else
+                      {
+                          <td style="vertical-align:bottom">  @Html.DisplayFor(modelItem => item.Genre.Name)  <span class="badge badge-warning">Onay Bekliyor</span></td>
+
+                      }
+                          <td>
+                              <span class="status--process" style="text-align:center !important">@Html.DisplayFor(modelItem => item.Rating.ViewCount)</span>
+                          </td>
+
+                      <td>
+                          <span class="status--process">  @Html.DisplayFor(modelItem => item.User.PhoneNumber)</span>
+                      </td>
+                      <td>
+                          <div class="table-data-feature">
+
+
+                              <button type="button" class="item" data-toggle="tooltip" data-placement="top" title="Görüntüle">
+                                  <a asp-action="ContentDetails" asp-controller="User" asp-route-id="@item.Id"> <i class="zmdi zmdi-more"></i></a>
+                              </button>
+                              <button class="item" data-toggle="tooltip" data-placement="top" title="Düzenle">
+                                  <a asp-action="ContentEdit" asp-controller="User" asp-route-id="@item.Id"><i class="zmdi zmdi-edit"></i></a>
+                              </button>
+
+
+                          </div>
+                      </td>
+                  </tr>
+                  <tr class="spacer"></tr>
+                }
+
+              </tbody>
+            </table>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+@section Scripts {
+  @if (TempData["ResetPassword"] != null)
+  {
+    <script>
+
+      (function () {
+        toastr.options = {
+          "closeButton": true,
+          "debug": false,
+          "progressBar": true,
+          "preventDuplicates": false,
+          "positionClass": "toast-top-right",
+          "showDuration": "400",
+          "hideDuration": "3000",
+          "timeOut": "9000",
+          "extendedTimeOut": "2000",
+          "showEasing": "swing",
+          "hideEasing": "linear",
+          "showMethod": "fadeIn",
+          "hideMethod": "fadeOut"
+        }
+        toastr.success('İşlem Başarılı');
+      })();
+
+    </script>
+  }
+  @if (TempData["ContentEdit"] != null)
+  {
+    <script>
+
+      (function () {
+        toastr.options = {
+          "closeButton": true,
+          "debug": false,
+          "progressBar": true,
+          "preventDuplicates": false,
+          "positionClass": "toast-top-right",
+          "showDuration": "400",
+          "hideDuration": "3000",
+          "timeOut": "9000",
+          "extendedTimeOut": "2000",
+          "showEasing": "swing",
+          "hideEasing": "linear",
+          "showMethod": "fadeIn",
+          "hideMethod": "fadeOut"
+        }
+        toastr.success('İşlem Başarılı');
+      })();
+
+    </script>
+  }
+  @if (TempData["ContentCreate"] != null)
+  {
+    <script>
+
+      (function () {
+        toastr.options = {
+          "closeButton": true,
+          "debug": false,
+          "progressBar": true,
+          "preventDuplicates": false,
+          "positionClass": "toast-top-right",
+          "showDuration": "400",
+          "hideDuration": "3000",
+          "timeOut": "9000",
+          "extendedTimeOut": "2000",
+          "showEasing": "swing",
+          "hideEasing": "linear",
+          "showMethod": "fadeIn",
+          "hideMethod": "fadeOut"
+        }
+        toastr.success('İşlem Başarılı');
+      })();
+
+    </script>
+
+  }
+  @if (TempData["Success"]!=null)
+	{
+		 <script>
+       (function () {
+         toastr.options = {
+           "closeButton": true,
+           "debug": false,
+           "progressBar": true,
+           "preventDuplicates": false,
+           "positionClass": "toast-top-right",
+           "showDuration": "400",
+           "hideDuration": "3000",
+           "timeOut": "9000",
+           "extendedTimeOut": "2000",
+           "showEasing": "swing",
+           "hideEasing": "linear",
+           "showMethod": "fadeIn",
+           "hideMethod": "fadeOut"
+         }
+         toastr.success('@TempData["Success"]');
+       })();
+     </script>
+	}
+}
+<script>
+  OneSignal.push(function () {
+    OneSignal.showSlidedownPrompt();
+    OneSignal.on('popoverAllowClick', function () {
+      OneSignal.sendTag("Role", "User");
+      OneSignal.setExternalUserId('@uId');
+    });
+  });
+</script>

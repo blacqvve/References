@@ -1,0 +1,163 @@
+﻿@model CastonFactory.Models.EditFileVM
+
+@{
+    ViewData["Title"] = "EditContent";
+}
+
+<h1>Düzenle</h1>
+
+<h4>ContentVM</h4>
+<hr />
+<div class="main-content">
+<div class="section__content section__content--p30">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="card-body card-block">
+                      <form asp-action="Edit" method="post" enctype="multipart/form-data" class="form-horizontal">
+
+                        <div class="row form-group">
+                          <div class="col col-md-3">
+                            <label asp-for="CreatorName" class=" form-control-label">Üretici İsmi</label>
+
+                          </div>
+                          <div class="col-12 col-md-9">
+                            <input asp-for="CreatorName" class="form-control" />
+                            <span asp-validation-for="CreatorName" class="text-danger"></span>
+                          </div>
+                        </div>
+                        <div class="row form-group">
+                          <div class="col col-md-3">
+                            <label asp-for="CreationName" class=" form-control-label">Eser Adı</label>
+                          </div>
+                          <div class="col-12 col-md-9">
+                            <input asp-for="CreationName" class="form-control" />
+                            <span asp-validation-for="CreationName" class="text-danger"></span>
+                          </div>
+                        </div>
+                        <div class="row form-group">
+                          <div class="col col-md-3">
+                            <label asp-for="Contact" class=" form-control-label">İletişim</label>
+                          </div>
+                          <div class="col-12 col-md-9">
+                            <input asp-for="Contact" class="form-control" />
+                            <span asp-validation-for="Contact" class="text-danger"></span>
+                          </div>
+                        </div>
+                        <div class="row form-group">
+                          <div class="col col-md-3">
+                            <label for="select" class=" form-control-label">Tip Seç</label>
+                          </div>
+                          <div class="col-12 col-md-9">
+                            <select asp-for="ContentType" id="select" class="form-control" asp-items="@(new SelectList(ViewBag.Types,"Key","Value"));">
+                            </select>
+                          </div>
+                        </div>
+                        <div class="form-check">
+                          <label for="searchType" class="form-check-label ">
+                            <input type="checkbox" id="NewThemeCheck" value="false" class="form-check-input">Yeni Tema Ekle
+                          </label>
+                        </div>
+                        <div id="newTheme" class="row form-group">
+                          <div class="col col-md-3">
+                            <label asp-for="NewTheme" class=" form-control-label">Yeni Tema</label>
+                          </div>
+                          <div class="col-12 col-md-9">
+                            <input asp-for="NewTheme" class="form-control" />
+                            <span asp-validation-for="NewTheme" class="text-danger"></span>
+                          </div>
+                        </div>
+                        <div id="dropDown" class="row form-group">
+                          <div class="col col-md-3">
+                            <label for="select" class=" form-control-label">Tema Seç</label>
+                          </div>
+                          <div class="col-12 col-md-9">
+                            <select name="Theme" asp-for="Theme" id="select" class="form-control" asp-items="@(new SelectList(ViewBag.Themes, "Name", "Name"));">
+                            </select>
+                          </div>
+                        </div>
+                        <div class="form-check">
+                          <label for="searchType" class="form-check-label ">
+                            <input type="checkbox" id="NewGenreCheck" value="false" class="form-check-input">Yeni Tür Ekle
+                          </label>
+                        </div>
+                        <div id="newGenre" class="row form-group">
+                          <div class="col col-md-3">
+                            <label asp-for="NewGenre" class=" form-control-label">Yeni Tema</label>
+                          </div>
+                          <div class="col-12 col-md-9">
+                            <input asp-for="NewGenre" class="form-control" />
+                            <span asp-validation-for="NewGenre" class="text-danger"></span>
+                          </div>
+                        </div>
+                        <div id="genreDropDown" class="row form-group">
+                          <div class="col col-md-3">
+                            <label for="select" class=" form-control-label">Tür Seç</label>
+                          </div>
+                          <div class="col-12 col-md-9">
+                            <select name="Genre" asp-for="Genre" id="select" class="form-control" asp-items="@(new SelectList(ViewBag.Genres, "Name", "Name"));">
+                            </select>
+                          </div>
+                        </div>
+
+                        <div class="row form-group">
+                          <div class="col col-md-3">
+                            <label for="File" class=" form-control-label">Dosya Yükle</label>
+
+                          </div>
+                          <div class="col-12 col-md-9">
+                            <input asp-for="File" type="file" class="form-control-file" />
+                            <span asp-validation-for="File" class="text-danger"></span>
+
+                          </div>
+                        </div>
+                        <div class="card-footer">
+                          <button type="submit" value="İçeriği Ekle" class="btn btn-primary btn-sm">
+                            <i class="fa fa-dot-circle-o"></i> Kaydet
+                          </button>
+                          <button type="submit" asp-action="Index" class="btn btn-danger btn-sm">
+                            <i class="fa fa-ban"></i> Geri
+                          </button>
+                        </div>
+                      </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script>
+        $(document).ready(function () {
+            $('#newTheme').hide();
+            $('#newGenre').hide();
+            $('#NewThemeCheck').change(function () {
+                if (this.checked) {
+
+                    $('#newTheme').show();
+                    $('#dropDown').hide();
+                }
+                else {
+                    $('#newTheme').hide();
+                    $('#dropDown').show();
+                }
+            });
+          $('#NewGenreCheck').change(function () {
+            if (this.checked) {
+
+              $('#newGenre').show();
+              $('#genreDropDown').hide();
+            }
+            else {
+              $('#newGenre').hide();
+              $('#genreDropDown').show();
+            }
+          });
+        });
+
+    </script>
+}

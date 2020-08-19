@@ -1,0 +1,46 @@
+﻿@model CastonFactory.Data.Models.Genre
+
+@{
+    ViewData["Title"] = "GenreDelete";
+}
+
+
+
+
+
+<div class="main-content">
+    <div class="section__content section__content--p30">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="card col-lg-6">
+                    <div class="card-body">
+                        <h5 class="card-title">İçerik Detayları</h5>
+                    </div>
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item">
+                            <h5> @Html.DisplayNameFor(model => model.Name):</h5>
+                            <p>  @Html.DisplayFor(model => model.Name)</p>
+                        </li>
+                        <li class="list-group-item">
+                            <h5> @Html.DisplayNameFor(model => model.CreateDate):</h5>
+                            <p>@Html.DisplayFor(model => model.CreateDate)</p>
+                        </li>
+                        <li class="list-group-item">
+                            <h5>@Html.DisplayNameFor(model => model.UserGenre):</h5>
+                            <p>@Html.DisplayNameFor(model => model.UserGenre)</p>
+                        </li>
+                        
+
+                    </ul>
+                    <div class="card-body">
+                        <form asp-action="GenreDelete">
+                            <input type="hidden" asp-for="Id" />
+                            <input type="submit" value="Sil" class="btn btn-danger" /> 
+                            <a asp-action="GenreIndex">Geri Dön</a>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

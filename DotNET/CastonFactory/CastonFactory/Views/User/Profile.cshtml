@@ -1,0 +1,44 @@
+﻿@model CastonFactory.Models.UserVM
+
+@{
+    ViewData["Title"] = "Profil";
+}
+
+
+
+<div class="main-content">
+    <div class="section__content section__content--p30">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="card col-lg-6">
+                    <div class="card-body">
+                        <h5 class="card-title">İçerik Detayları</h5>
+                    </div>
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item">
+                            <h5>  @Html.DisplayNameFor(model => model.Name):</h5>
+                            <p>  @Html.DisplayFor(model => model.Name)</p>
+                        </li>
+                        <li class="list-group-item">
+                            <h5>    @Html.DisplayNameFor(model => model.Surname):</h5>
+                            <p>    @Html.DisplayFor(model => model.Surname)</p>
+                        </li>
+                        <li class="list-group-item">
+                            <h5>        @Html.DisplayNameFor(model => model.PhoneNumber):</h5>
+                            <p>        @Html.DisplayFor(model => model.PhoneNumber)</p>
+                        </li>
+                        <li class="list-group-item">
+                            <h5>  @Html.DisplayNameFor(model => model.Email):</h5>
+                            <p>  @Html.DisplayFor(model => model.Email)</p>
+                        </li>
+                    </ul>
+                    <div class="card-body">
+
+                        <a class="btn btn-danger btn-sm" asp-controller="User" asp-action="ContentIndex"> <i class="fa fa-ban"></i>Geri </a>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

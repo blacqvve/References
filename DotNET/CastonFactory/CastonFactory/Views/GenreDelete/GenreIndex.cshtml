@@ -1,0 +1,71 @@
+﻿@model IEnumerable<CastonFactory.Data.Models.Genre>
+
+@{
+    ViewData["Title"] = "GenreIndex";
+}
+
+
+
+
+
+
+
+<div class="main-content">
+    <div class="section__content section__content--p30">
+        <div class="container-fluid">
+            <div class=" card">
+                <div class="card-body">
+                    <div class="table-responsive table-responsive-data2">
+                        <table class="table table-data2">
+                            <thead>
+                                <tr>
+                                    <th>
+                                        Tür İsmi
+                                    </th>
+                                    <th>
+                                        Oluşturma Tarihi
+                                    </th>
+                                    <th>
+                                        Tür Aktifliği
+                                    </th>
+
+                                    <th>İşlemler</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model)
+                                {
+                                <tr class="tr-shadow">
+
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Name)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.CreateDate)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.UserGenre)
+                                    </td>
+                                    <td>
+                                        <div class="table-data-feature">
+
+                                            <button class="item" data-toggle="tooltip" data-placement="center" title="Tür Sil">
+                                                <a asp-action="DeleteGenre" asp-route-id="@item.Id"><i class="zmdi zmdi-delete"></i></a>
+                                            </button>
+
+                                        </div>
+                                    </td>
+
+                                </tr>
+                                    <tr class="spacer"></tr>
+                                }
+
+                            </tbody>
+                        </table>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
